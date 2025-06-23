@@ -8,10 +8,10 @@ services:
       - "8080:8080"  # Spark Master UI
       - "7077:7077"  # Spark Master RPC
     volumes:
-      - ./apps:/opt/bitnami/spark/workspace/apps
-      - ./data:/opt/bitnami/spark/workspace/data
+      - ./workspace:/opt/bitnami/spark/workspace
     environment:
       - SPARK_MODE=master
+      - SPARK_DAEMON_USER=root
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
       - SPARK_RPC_ENCRYPTION_ENABLED=no
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
@@ -26,10 +26,11 @@ services:
     ports:
       - "8081:8081"  # Spark Worker 1 UI
     volumes:
-      - ./apps:/opt/bitnami/spark/workspace/apps
-      - ./data:/opt/bitnami/spark/workspace/data
+      - ./workspace:/opt/bitnami/spark/workspace
+    working_dir: /opt/bitnami/spark/workspace
     environment:
       - SPARK_MODE=worker
+      - SPARK_DAEMON_USER=root
       - SPARK_MASTER_URL=spark://spark-master:7077
       - SPARK_WORKER_CORES=1
       - SPARK_WORKER_MEMORY=4G
@@ -48,10 +49,11 @@ services:
     ports:
       - "8082:8081"  # Spark Worker 2 UI
     volumes:
-      - ./apps:/opt/bitnami/spark/workspace/apps
-      - ./data:/opt/bitnami/spark/workspace/data
+      - ./workspace:/opt/bitnami/spark/workspace
+    working_dir: /opt/bitnami/spark/workspace
     environment:
       - SPARK_MODE=worker
+      - SPARK_DAEMON_USER=root
       - SPARK_MASTER_URL=spark://spark-master:7077
       - SPARK_WORKER_CORES=1
       - SPARK_WORKER_MEMORY=4G
@@ -71,9 +73,8 @@ services:
       - "8888:8888" # JupyterLab UI
       - "4040:4040" # Spark UI for Jupyter
     volumes:
-      - ./notebooks:/opt/bitnami/spark/workspace/notebooks
-      - ./data:/opt/bitnami/spark/workspace/data
-      - ./apps:/opt/bitnami/spark/workspace/apps
+      - ./workspace:/opt/bitnami/spark/workspace
+    working_dir: /opt/bitnami/spark/workspace  
     environment:
       - SPARK_MODE=client
       - SPARK_MASTER_URL=spark://spark-master:7077

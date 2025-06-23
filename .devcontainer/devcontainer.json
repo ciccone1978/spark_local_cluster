@@ -9,12 +9,12 @@
 
 	// The path of the folder that should be opened in VS Code.
 	// This maps to the notebooks volume mount.
-	"workspaceFolder": "/opt/bitnami/spark/workspace/",
+	"workspaceFolder": "/opt/bitnami/spark/workspace",
 
 	// Set a custom user for VS Code to connect as.
 	// 'root' is simplest here to avoid permission issues inside the container.
 	"remoteUser": "root",
-
+	
 	// VS Code specific customizations.
 	"customizations": {
 		"vscode": {
