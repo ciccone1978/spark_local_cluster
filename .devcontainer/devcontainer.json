@@ -1,0 +1,29 @@
+{
+	"name": "PySpark Development Cluster",
+
+	// Tells VS Code to use your existing docker-compose file.
+	"dockerComposeFile": "../docker-compose.yml",
+
+	// The 'service' to which VS Code should attach. We'll attach to our client container.
+	"service": "jupyterlab",
+
+	// The path of the folder that should be opened in VS Code.
+	// This maps to the notebooks volume mount.
+	"workspaceFolder": "/opt/bitnami/spark/workspace/",
+
+	// Set a custom user for VS Code to connect as.
+	// 'root' is simplest here to avoid permission issues inside the container.
+	"remoteUser": "root",
+
+	// VS Code specific customizations.
+	"customizations": {
+		"vscode": {
+			// A list of extensions to automatically install inside the dev container.
+			"extensions": [
+				"ms-python.python",         // The official Python extension
+				"ms-toolsai.jupyter",       // The official Jupyter extension
+				"ms-python.pylance"         // Rich language support for Python
+			]
+		}
+	}
+}
