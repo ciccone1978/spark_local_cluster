@@ -1,0 +1,11 @@
+jupyterlab
+pandas
+scikit-learn
+matplotlib
+seaborn
+boto3
+requests
+numpy
+wget
+tqdm
+psycopg2-binary
