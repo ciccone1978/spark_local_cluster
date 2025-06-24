@@ -7,6 +7,8 @@ services:
     ports:
       - "8080:8080"  # Spark Master UI
       - "7077:7077"  # Spark Master RPC
+    networks:
+      - spark-network
     volumes:
       - ./workspace:/opt/bitnami/spark/workspace
     environment:
@@ -25,6 +27,8 @@ services:
       - spark-master
     ports:
       - "8081:8081"  # Spark Worker 1 UI
+    networks:
+      - spark-network
     volumes:
       - ./workspace:/opt/bitnami/spark/workspace
     working_dir: /opt/bitnami/spark/workspace
@@ -48,6 +52,8 @@ services:
       - spark-master
     ports:
       - "8082:8081"  # Spark Worker 2 UI
+    networks:
+      - spark-network
     volumes:
       - ./workspace:/opt/bitnami/spark/workspace
     working_dir: /opt/bitnami/spark/workspace
@@ -72,6 +78,8 @@ services:
     ports:
       - "8888:8888" # JupyterLab UI
       - "4040:4040" # Spark UI for Jupyter
+    networks:
+      - spark-network
     volumes:
       - ./workspace:/opt/bitnami/spark/workspace
     working_dir: /opt/bitnami/spark/workspace  
@@ -83,3 +91,23 @@ services:
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
     command: >
       sleep infinity
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    ports:
+      - "9000:9000"  # S3 API Port
+      - "9001:9001"  # MinIO Console UI Port
+    networks:
+      - spark-network
+    volumes:
+      # This is where MinIO will store its data on your host machine
+      - ./storageS3:/data
+    environment:
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=minio123
+    command: server /data --console-address ":9001"    
+  
+networks:
+  spark-network:
+    driver: bridge
