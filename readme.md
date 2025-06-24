@@ -1,7 +1,3 @@
-Certamente. Ecco le specifiche del progetto formattate in un documento Markdown, ideale per essere usato come `README.md` in un repository Git (es. su GitHub) o come documento di progettazione.
-
----
-
 # Progetto di Data Analysis: "NYC Taxi Pulse"
 ## Analisi Predittiva e Ottimizzazione della Domanda e dell'Efficienza con PySpark
 
