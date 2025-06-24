@@ -83,6 +83,8 @@ services:
     volumes:
       - ./workspace:/opt/bitnami/spark/workspace
     working_dir: /opt/bitnami/spark/workspace  
+    env_file:
+      - .env
     environment:
       - SPARK_MODE=client
       - SPARK_MASTER_URL=spark://spark-master:7077
@@ -104,10 +106,28 @@ services:
       # This is where MinIO will store its data on your host machine
       - ./storageS3:/data
     environment:
-      - MINIO_ROOT_USER=minio
-      - MINIO_ROOT_PASSWORD=minio123
+      - MINIO_ROOT_USER=${MINIO_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD}
     command: server /data --console-address ":9001"    
-  
+
+  postgres:
+    image: postgis/postgis:17-3.5
+    container_name: postgres-gis
+    hostname: postgres-gis
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - spark-network
+
+volumes:
+  postgres_data:
+
 networks:
   spark-network:
     driver: bridge
