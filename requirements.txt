@@ -9,3 +9,9 @@ numpy
 wget
 tqdm
 psycopg2-binary
+geopandas
+mapclassify
+fiona
+shapely
+sqlalchemy
+GeoAlchemy2
